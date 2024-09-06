@@ -1,0 +1,357 @@
+/*#include<stdio.h>
+#include<stdbool.h>
+#define MAX_VERTICES 100
+int graph[MAX_VERTICES][MAX_VERTICES];
+bool visited[MAX_VERTICES];
+int queue[MAX_VERTICES];
+int front=-1,rear=-1;
+int enqueue(int vertex)
+{
+if(rear==MAX_VERTICES-1)
+{
+printf("full");
+//return;
+}
+if(front==-1)
+front=0;
+rear++;
+queue[rear]=vertex;}
+int dequeue()
+{
+if(front==-1||front>rear)
+{
+printf("empty");
+return -1;
+}
+int vertex=queue[front];
+front++;
+if(front>rear)
+{
+front=rear=-1;
+return vertex;
+}}
+void bfs(int start,int n)
+{
+int current;
+enqueue(start);
+visited[start]=true;
+printf("bfs.....");
+while(front!=-1)
+{
+current=dequeue();
+printf("%d",current);
+for(int i=0;i<n;i++)
+{
+if(graph[current][i]==1 && !visited[i])
+{
+enqueue(i);
+visited[i]=true;
+}}}printf("\n");
+}
+int main()
+{
+int n;
+printf("enter the number vertices");
+scanf("%d",&n);
+printf("adjecency matrix:");
+for(int i=0;i<n;i++)
+{
+visited[i]=false;
+for(int j=0;j<n;j++)
+{
+scanf("%d",&graph[i][j]);
+}}
+int start_vertex;
+printf("enter the starting vertex");
+scanf("%d",&start_vertex);
+bfs(start_vertex,n);
+return 0;
+}*
+#include<stdio.h>
+#include<stdbool.h>
+#define MAX_VERTICES 100
+int graph[MAX_VERTICES][MAX_VERTICES];
+bool visited[MAX_VERTICES];
+int  dfs(int vertex,int n)
+{
+visited[vertex]=true;
+printf("%d",vertex);
+for(int i=0;i<n;i++)
+{
+if(graph[vertex][i]==1 && !visited[i])
+{
+dfs(i,n);
+}}printf("\n");
+}
+int main()
+{
+int n;
+printf("enter the number:");
+scanf("%d",&n);
+printf("enter the matrix:");
+for(int  i=0;i<n;i++)
+{
+visited[i]=false;
+for(int j=0;j<n;j++)
+{
+scanf("%d",&graph[i][j]);
+}}
+int start_vertex;
+printf("enter the vertex");
+scanf("%d",&start_vertex);
+dfs(start_vertex,n);
+return 0;
+}*
+#include<stdio.h>
+#include<string.h>
+#include<ctype.h>
+char stack[20];
+int top=-1;
+void push(char element)
+{
+stack[++top]=element;
+}
+char pop()
+{
+if(top==-1)
+{
+return -1;
+}
+return stack[top--];
+}
+int priority(char x)
+{
+if(x=='('||x==')')
+return 0;
+else if(x=='+'||x=='-')
+return 1;
+else if(x=='*'||x=='/')
+return 2;
+else if(x=='^')
+return 3;
+}
+int postfix(char infix[])
+{
+char c;
+int i;
+for(int i=0;infix[i]!='\0';i++)
+{
+if(isalnum(infix[i]))
+{
+printf("%c",infix[i]);
+}
+else if(infix[i]=='(')
+{
+push(infix[i]);
+}
+else if(infix[i]==')')
+{
+while((c=pop())!='(')
+printf("%c",c);
+}
+else
+{
+while(priority(stack[top])>=priority(infix[i]))
+{
+printf("%c",pop());
+}
+push(infix[i]);}}
+while(top>=0)
+printf("%c",pop());}
+int main()
+{
+char infix[100];
+printf("enter the expression");
+scanf("%s",infix);
+postfix(infix);
+return 0;
+}*
+#include<stdio.h>
+#include<string.h>
+#include<ctype.h>
+char stack[20];
+int top=-1;
+void push(char element)
+{
+stack[++top]=element;
+}
+char pop()
+{
+if(top==-1)
+{
+return -1;
+}
+return stack[top--];
+}
+int priority(int x)
+{
+if(x=='('||x==')')
+return 0;
+else if(x=='+'||x=='-')
+return 1;
+else if(x=='*'||x=='/')
+return 2;
+else if(x=='^')
+return 3;
+}
+int postfix(char infix[])
+{
+char c;
+int i;
+for(int i=0;infix[i]!='\0';i++)
+{
+if(isalnum(infix[i]))
+{
+printf("%d",infix[i]);
+}
+else if(infix[i]=='(')
+{
+push(infix[i]);
+}
+else if(infix[i]==')')
+{
+while((c=pop())!='(')
+printf("%c",c);
+}
+else
+{
+while(priority(stack[top])>=priority(infix[i]))
+{
+printf("%c",pop());
+}
+push(infix[i]);
+}}
+while(top>=0)
+printf("%c",pop());
+}
+int main()
+{
+char infix[100];
+printf("enter the expression");
+scanf("%s",infix);
+postfix(infix);
+}*/
+#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+int key;
+struct node *left;
+struct node *right;
+}*root=NULL,*temp,*new;
+struct node *create(int key)
+{
+new=(struct node *)malloc(sizeof(struct node));
+new->key=key;
+new->left=new->right=NULL;
+return new;
+}
+struct node *insert(struct node *root,int key)
+{
+if(root==NULL)
+{
+return create(key);
+}
+else if(key<root->key)
+{
+root->left=insert(root->right,key);
+}
+else if(key>root->key)
+{
+root->right=insert(root->right,key);
+}
+return 0;
+}
+struct node *delete(struct node *root,int key)
+{
+if(root==NULL)
+{
+return root;
+}
+else if(key<root->key)
+{
+root->left=delete(root->left,key);
+}
+else if(key>root->key)
+{
+root->right=delete(root->right,key);
+}
+else
+{
+if(root->left==NULL)
+{
+temp=root->right;
+free(root);
+return temp;
+}
+else if(root->right==NULL)
+{
+temp=root->left;
+free(root);
+return temp;
+}}}
+struct node *search(struct node *root,int key)
+{
+if(root==NULL)
+{
+return 0;
+}
+else if(key<root->key,key)
+{
+search(root->left,key);
+}
+search(root->right,key);
+}
+void inorder(struct node *root)
+{
+if(root!=NULL)
+{
+inorder(root->left);
+printf("%d",root->key);
+inorder(root->right);
+}}
+int main()
+{
+int ch,key;
+while(1){
+printf("1.insert\n");
+printf("2.delete\n");
+printf("3.search\n");
+printf("4.inorder\n");
+printf("enter the choice");
+scanf("%d",&ch);
+switch(ch)
+{
+case 1:printf("enter the data to insert\n");
+scanf("%d",&key);
+root=insert(root,key); break;
+case 2:printf("enter the data to delete\n");
+scanf("%d",&key); 
+root=delete(root,key);break;
+case 3:printf("enter the data to search the element\n");
+scanf("%d",&key);
+if(search(root,key)!=0)
+{
+printf("found %d",key);
+}
+else
+{
+printf("not found %d",key);
+}
+break;
+case 4:printf("inorder");
+inorder(root);
+break;
+case 5:exit(0); break;
+default:printf("invalid");
+}}}
+
+
+
+
+
+
+
+
+
+
